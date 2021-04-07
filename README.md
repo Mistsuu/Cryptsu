@@ -1,5 +1,4 @@
 # Cryptography
---
 
 ### Introduction
 A personal project involving the curiosity of understanding Cryptography.
