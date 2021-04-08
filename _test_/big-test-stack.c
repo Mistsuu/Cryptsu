@@ -146,7 +146,7 @@ int main() {
 
     big c;
     measureTime(
-        c = add(a, b);
+        c = _naive_mul_(a, b);
     );
 
     fflush(stdout);

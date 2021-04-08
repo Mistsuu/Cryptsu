@@ -8,8 +8,7 @@
 //      Initialize the big number.
 void init(big* a, int len) {
     a->len   = len;
-    a->digit = (uint64_t*) malloc(sizeof(uint64_t) * (len+2));
-    memset(a->digit, 0, (len+2) * sizeof(uint64_t));
+    a->digit = (uint64_t*) calloc(len+2, sizeof(uint64_t));
 }
 
 //  randbig():

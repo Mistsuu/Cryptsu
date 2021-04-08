@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #define measureTime( tstFunc ) do {\
     struct timespec _b_;\
@@ -21,7 +22,7 @@
 /*
     Variable defzeroons
 */
-#define LEN    4                  // Length of the array in big number.
+#define LEN    1024                  // Length of the array in big number.
 // Shift values that are commonly used
 #define AC_SHIFT 32                 // To get addition carry bit
 #define SC_SHIFT 63                 // To get subtraction carry bit
@@ -39,9 +40,9 @@ typedef struct _big_ {
 } big;
 
 void pb(uint64_t ui) {
-    rllp(i, 63, 32)
-        printf(ui >> i & 0x1 ? "1":"0");
-    printf("|");
+    // rllp(i, 63, 32)
+    //     printf(ui >> i & 0x1 ? "1":"0");
+    // printf("|");
     rllp(i, 31, 0)
         printf(ui >> i & 0x1 ? "1":"0");
 }
@@ -183,13 +184,16 @@ big _karatsuba_mul_(big a, big b) {
     add1 = add(mul0, mul1); printf("add1:        "); printBinary(add1); printf("\n");
     add2 = add(add1, mul2); printf("add2:        "); printBinary(add2); printf("\n");
 
-    lrlp(i, 1, a.len)
-        res.digit[i   + a.len/2] += add2.digit[i] + (res.digit[i-1 + a.len/2] >> AC_SHIFT),
+    lrlp(i, 1, a.len+1) {
+        res.digit[i   + a.len/2] += add2.digit[i] + (res.digit[i-1 + a.len/2] >> AC_SHIFT);
         res.digit[i-1 + a.len/2] &= LOMSK;
+    }
     lrlp(i, 3*a.len/2, a.len*2+1) {
         res.digit[i]   += res.digit[i-1] >> AC_SHIFT;
         res.digit[i-1] &= LOMSK;
     }
+
+    assert(res.digit[res.len+1] == 0);
 
     printf("res:         "); printBinary(res); printf("\n");
     return res;
@@ -202,14 +206,13 @@ int main() {
     big a; init(&a, LEN); randbig(&a, LEN);
     big b; init(&b, LEN); randbig(&b, LEN);
 
-    printf("a is "); fflush(stdout); print(a); printf("\n");
-    printf("b is "); fflush(stdout); print(b); printf("\n");
-
     big c;
     big d;
     measureTime(
         c = _karatsuba_mul_(a, b);
     );
 
+    printf("a is "); fflush(stdout); print(a); printf("\n");
+    printf("b is "); fflush(stdout); print(b); printf("\n");
     printf("c is "); fflush(stdout); print(c); printf("\n");
 }

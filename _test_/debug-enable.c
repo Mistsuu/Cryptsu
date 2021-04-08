@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #define measureTime( tstFunc ) do {\
     struct timespec _b_;\
@@ -21,7 +22,7 @@
 /*
     Variable defzeroons
 */
-#define LEN    4                  // Length of the array in big number.
+#define LEN      1024               // Length of the array in big number.
 // Shift values that are commonly used
 #define AC_SHIFT 32                 // To get addition carry bit
 #define SC_SHIFT 63                 // To get subtraction carry bit
@@ -39,9 +40,9 @@ typedef struct _big_ {
 } big;
 
 void pb(uint64_t ui) {
-    rllp(i, 63, 32)
-        printf(ui >> i & 0x1 ? "1":"0");
-    printf("|");
+    // rllp(i, 63, 32)
+    //     printf(ui >> i & 0x1 ? "1":"0");
+    // printf("|");
     rllp(i, 31, 0)
         printf(ui >> i & 0x1 ? "1":"0");
 }
@@ -136,10 +137,10 @@ big _naive_mul_(big a, big b) {
 
 big _karatsuba_mul_(big a, big b) {
 
-    printf("************ RECURSIVE CALL **************\n");
-    printf("a: "); printBinary(a); printf("\n");
-    printf("-- TIMES --\n");
-    printf("b: "); printBinary(b); printf("\n");
+    // printf("************ RECURSIVE CALL **************\n");
+    // printf("a: "); printBinary(a); printf("\n");
+    // printf("-- TIMES --\n");
+    // printf("b: "); printBinary(b); printf("\n");
 
     big res; init(&res, a.len*2);
     if (a.len == 1) {
@@ -147,51 +148,54 @@ big _karatsuba_mul_(big a, big b) {
         res.digit[2]  = res.digit[1] >> AC_SHIFT;
         res.digit[1] &= LOMSK;
 
-        printf("Break case:  "); printBinary(res); printf("\n\n\n");
+        // printf("Break case:  "); printBinary(res); printf("\n\n\n");
         return res;
     }
 
-    printf("\n\n");
+    // printf("\n\n");
 
     int sign;
     big mul0, mul1, mul2, sub0, sub1, add1, add2, al, ah, bl, bh; 
 
     // Set ah, al                                                                                       
-    init(&al, a.len/2); memcpy(&al.digit[1], &a.digit[1],           a.len/2*sizeof(uint64_t)); printf("al:          "); printBinary(al); printf("\n");
-    init(&ah, a.len/2); memcpy(&ah.digit[1], &a.digit[a.len/2 + 1], a.len/2*sizeof(uint64_t)); printf("ah:          "); printBinary(ah); printf("\n");
+    init(&al, a.len/2); memcpy(&al.digit[1], &a.digit[1],           a.len/2*sizeof(uint64_t)); // printf("al:          "); printBinary(al); printf("\n");
+    init(&ah, a.len/2); memcpy(&ah.digit[1], &a.digit[a.len/2 + 1], a.len/2*sizeof(uint64_t)); // printf("ah:          "); printBinary(ah); printf("\n");
 
     // Set bh, bl
-    init(&bl, b.len/2); memcpy(&bl.digit[1], &b.digit[1],           b.len/2*sizeof(uint64_t)); printf("bl:          "); printBinary(bl); printf("\n");
-    init(&bh, b.len/2); memcpy(&bh.digit[1], &b.digit[b.len/2 + 1], b.len/2*sizeof(uint64_t)); printf("bh:          "); printBinary(bh); printf("\n");
+    init(&bl, b.len/2); memcpy(&bl.digit[1], &b.digit[1],           b.len/2*sizeof(uint64_t)); // printf("bl:          "); printBinary(bl); printf("\n");
+    init(&bh, b.len/2); memcpy(&bh.digit[1], &b.digit[b.len/2 + 1], b.len/2*sizeof(uint64_t)); // printf("bh:          "); printBinary(bh); printf("\n");
 
     // Get abs(ah - al), abs(bl - bh), record the sign...                             abs(sub0): 
-    sub0 = sub(ah, al);                                                       printf("sub0:        "); printBinary(sub0); printf("\n");
-    sub1 = sub(bl, bh);                                                       printf("sub1:        "); printBinary(sub1); printf("\n"); 
-    sign = carry(sub0) ^ carry(sub1);                                         printf("sign:        %d\n", sign);
-    if (sub0.digit[sub0.len+1]) neg(&sub0);                                   printf("abs(sub0):   "); printBinary(sub0); printf("\n");
-    if (sub1.digit[sub1.len+1]) neg(&sub1);                                   printf("abs(sub1):   "); printBinary(sub0); printf("\n");
+    sub0 = sub(ah, al);                                                       // printf("sub0:        "); printBinary(sub0); printf("\n");
+    sub1 = sub(bl, bh);                                                       // printf("sub1:        "); printBinary(sub1); printf("\n"); 
+    sign = carry(sub0) ^ carry(sub1);                                         // printf("sign:        %d\n", sign);
+    if (sub0.digit[sub0.len+1]) neg(&sub0);                                   // printf("abs(sub0):   "); printBinary(sub0); printf("\n");
+    if (sub1.digit[sub1.len+1]) neg(&sub1);                                   // printf("abs(sub1):   "); printBinary(sub0); printf("\n");
  
     mul0 = _karatsuba_mul_(al, bl);     memcpy(&res.digit[1],       &mul0.digit[1], a.len*sizeof(uint64_t)); 
     mul1 = _karatsuba_mul_(ah, bh);     memcpy(&res.digit[a.len+1], &mul1.digit[1], a.len*sizeof(uint64_t)); 
     mul2 = _karatsuba_mul_(sub0, sub1); if (sign) neg(&mul2);
 
-    printf("mul0:        "); printBinary(mul0); printf("\n");
-    printf("mul1:        "); printBinary(mul1); printf("\n");
-    printf("mul2:        "); printBinary(mul2); printf("\n");
-    printf("res+mul0-1:  "); printBinary(res); printf("\n");
+    // printf("mul0:        "); printBinary(mul0); printf("\n");
+    // printf("mul1:        "); printBinary(mul1); printf("\n");
+    // printf("mul2:        "); printBinary(mul2); printf("\n");
+    // printf("res+mul0-1:  "); printBinary(res); printf("\n");
 
-    add1 = add(mul0, mul1); printf("add1:        "); printBinary(add1); printf("\n");
-    add2 = add(add1, mul2); printf("add2:        "); printBinary(add2); printf("\n");
+    add1 = add(mul0, mul1); // printf("add1:        "); printBinary(add1); printf("\n");
+    add2 = add(add1, mul2); // printf("add2:        "); printBinary(add2); printf("\n");
 
-    lrlp(i, 1, a.len)
-        res.digit[i   + a.len/2] += add2.digit[i] + (res.digit[i-1 + a.len/2] >> AC_SHIFT),
+    lrlp(i, 1, a.len+1) {
+        res.digit[i   + a.len/2] += add2.digit[i] + (res.digit[i-1 + a.len/2] >> AC_SHIFT);
         res.digit[i-1 + a.len/2] &= LOMSK;
-    lrlp(i, 3*a.len/2, a.len*2+1) {
+    }
+    lrlp(i, 3*a.len/2+1, a.len*2+1) {
         res.digit[i]   += res.digit[i-1] >> AC_SHIFT;
         res.digit[i-1] &= LOMSK;
     }
 
-    printf("res:         "); printBinary(res); printf("\n");
+    assert(res.digit[res.len+1] == 0);
+
+    // printf("res:         "); printBinary(res); printf("\n");
     return res;
 }
 
@@ -208,7 +212,7 @@ int main() {
     big c;
     big d;
     measureTime(
-        c = _karatsuba_mul_(a, b);
+        c = _naive_mul_(a, b);
     );
 
     printf("c is "); fflush(stdout); print(c); printf("\n");
