@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #define measureTime( tstFunc ) do {\
     struct timespec _b_;\
@@ -21,7 +22,7 @@
 /*
     Variable defzeroons
 */
-#define LEN    4                  // Length of the array in big number.
+#define LEN      128                // Length of the array in big number.
 // Shift values that are commonly used
 #define AC_SHIFT 32                 // To get addition carry bit
 #define SC_SHIFT 63                 // To get subtraction carry bit
@@ -39,9 +40,9 @@ typedef struct _big_ {
 } big;
 
 void pb(uint64_t ui) {
-    rllp(i, 63, 32)
-        printf(ui >> i & 0x1 ? "1":"0");
-    printf("|");
+    // rllp(i, 63, 32)
+    //     printf(ui >> i & 0x1 ? "1":"0");
+
     rllp(i, 31, 0)
         printf(ui >> i & 0x1 ? "1":"0");
 }
@@ -68,15 +69,19 @@ void printBinary(big a) {
         printf(" ");
 }
 
-//  init():
-//      Initialize the big number.
+/*  
+    init():
+        Initialize the big number.
+*/
 void init(big* a, int len) {
     a->len   = len;
     a->digit = (uint64_t*) calloc(len+2, sizeof(uint64_t));
 }
 
-//  randbig():
-//      Fills <size> digits of big number with random data.
+/*  
+    randbig():
+        Fills <size> digits of big number with random data.
+*/
 void randbig(big* a, int size) {
     lrlp(i, 1, size)
         a->digit[i] = rand() & LOMSK;
@@ -84,8 +89,14 @@ void randbig(big* a, int size) {
 
 #define carry(a) a.digit[a.len+1]
 
-//  add():
-//      Add 2 big numbers.
+/*  
+    add():
+        Add 2 big numbers to result a new big number allocated in the heap.
+
+    [Args]
+        - a: An input big number.
+        - b: An input big number.
+*/
 big add(big a, big b) {
     big c; init(&c, a.len);
     lrlp(i, 1, a.len+1) {
@@ -96,8 +107,14 @@ big add(big a, big b) {
     return c;
 }
 
-//  sub():
-//      Subtract 2 big numbers.
+/*  
+    sub():
+        Subtract 2 big numbers.
+        
+    [Args]
+        - a: An input big number.
+        - b: An input big number.
+*/
 big sub(big a, big b) {
     big c; init(&c, a.len);
     lrlp(i, 1, a.len+1) {
@@ -108,8 +125,13 @@ big sub(big a, big b) {
     return c;
 }
 
-//  neg():
-//      Convert x to -x.
+/*  
+    neg():
+        Convert a big number x to -x.
+
+    [Args]
+        - a: An input big number.
+*/
 void neg(big* a) {
     a->digit[0] = BASE;
     lrlp(i, 1, a->len+1) {
@@ -120,10 +142,17 @@ void neg(big* a) {
 }
 
 /*
-    _naive_mul_():
+    naive_mul():
         Multiply two numbers with naive method.
+    
+    [Args]
+        - a: An input big number.
+        - b: An input big number.
+
+    [Ret]
+        The product of two numbers.
 */
-big _naive_mul_(big a, big b) {
+big naive_mul(big a, big b) {
     big res; init(&res, a.len*2);
     lrlp(i, 1, a.len)
     lrlp(j, 1, b.len) {
@@ -134,64 +163,69 @@ big _naive_mul_(big a, big b) {
     return res;
 }
 
-big _karatsuba_mul_(big a, big b) {
+/*
+    karatsuba_mul():
+        Multiply two numbers with the Karatsuba method.
 
-    printf("************ RECURSIVE CALL **************\n");
-    printf("a: "); printBinary(a); printf("\n");
-    printf("-- TIMES --\n");
-    printf("b: "); printBinary(b); printf("\n");
+    [Args]
+        - a: An input big number.
+        - b: An input big number.
 
+    [Ret]
+        The product of two numbers.
+*/
+big karatsuba_mul(big a, big b) {
     big res; init(&res, a.len*2);
     if (a.len == 1) {
         res.digit[1]  = a.digit[1] * b.digit[1];
         res.digit[2]  = res.digit[1] >> AC_SHIFT;
         res.digit[1] &= LOMSK;
-
-        printf("Break case:  "); printBinary(res); printf("\n\n\n");
         return res;
     }
-
-    printf("\n\n");
 
     int sign;
     big mul0, mul1, mul2, sub0, sub1, add1, add2, al, ah, bl, bh; 
 
-    // Set ah, al                                                                                       
-    init(&al, a.len/2); memcpy(&al.digit[1], &a.digit[1],           a.len/2*sizeof(uint64_t)); printf("al:          "); printBinary(al); printf("\n");
-    init(&ah, a.len/2); memcpy(&ah.digit[1], &a.digit[a.len/2 + 1], a.len/2*sizeof(uint64_t)); printf("ah:          "); printBinary(ah); printf("\n");
+    // Initialize al, ah, bl, bh                                                                                    
+    init(&al, a.len/2); 
+    init(&ah, a.len/2); 
+    init(&bl, b.len/2); 
+    init(&bh, b.len/2); 
 
-    // Set bh, bl
-    init(&bl, b.len/2); memcpy(&bl.digit[1], &b.digit[1],           b.len/2*sizeof(uint64_t)); printf("bl:          "); printBinary(bl); printf("\n");
-    init(&bh, b.len/2); memcpy(&bh.digit[1], &b.digit[b.len/2 + 1], b.len/2*sizeof(uint64_t)); printf("bh:          "); printBinary(bh); printf("\n");
+    // Copy memory of the variables 
+    // (could be optimised in the near future 
+    // by using pointers instead of copying
+    // the whole memory array)
+    memcpy(&al.digit[1], &a.digit[1],           a.len/2*sizeof(uint64_t));
+    memcpy(&ah.digit[1], &a.digit[a.len/2 + 1], a.len/2*sizeof(uint64_t));
+    memcpy(&bl.digit[1], &b.digit[1],           b.len/2*sizeof(uint64_t));
+    memcpy(&bh.digit[1], &b.digit[b.len/2 + 1], b.len/2*sizeof(uint64_t));
 
-    // Get abs(ah - al), abs(bl - bh), record the sign...                             abs(sub0): 
-    sub0 = sub(ah, al);                                                       printf("sub0:        "); printBinary(sub0); printf("\n");
-    sub1 = sub(bl, bh);                                                       printf("sub1:        "); printBinary(sub1); printf("\n"); 
-    sign = carry(sub0) ^ carry(sub1);                                         printf("sign:        %d\n", sign);
-    if (sub0.digit[sub0.len+1]) neg(&sub0);                                   printf("abs(sub0):   "); printBinary(sub0); printf("\n");
-    if (sub1.digit[sub1.len+1]) neg(&sub1);                                   printf("abs(sub1):   "); printBinary(sub0); printf("\n");
- 
-    mul0 = _karatsuba_mul_(al, bl);     memcpy(&res.digit[1],       &mul0.digit[1], a.len*sizeof(uint64_t)); 
-    mul1 = _karatsuba_mul_(ah, bh);     memcpy(&res.digit[a.len+1], &mul1.digit[1], a.len*sizeof(uint64_t)); 
-    mul2 = _karatsuba_mul_(sub0, sub1); if (sign) neg(&mul2);
+    // Get abs(ah - al), abs(bl - bh), record the sign...
+    sub0 = sub(ah, al);                                                      
+    sub1 = sub(bl, bh);                                                      
+    sign = carry(sub0) ^ carry(sub1);                                        
+    if (sub0.digit[sub0.len+1]) neg(&sub0);                                  
+    if (sub1.digit[sub1.len+1]) neg(&sub1);                                  
+    
+    // Calculating the recursive multiplications
+    mul0 = karatsuba_mul(al, bl);     memcpy(&res.digit[1],       &mul0.digit[1], a.len*sizeof(uint64_t)); 
+    mul1 = karatsuba_mul(ah, bh);     memcpy(&res.digit[a.len+1], &mul1.digit[1], a.len*sizeof(uint64_t)); 
+    mul2 = karatsuba_mul(sub0, sub1); if (sign) neg(&mul2);
 
-    printf("mul0:        "); printBinary(mul0); printf("\n");
-    printf("mul1:        "); printBinary(mul1); printf("\n");
-    printf("mul2:        "); printBinary(mul2); printf("\n");
-    printf("res+mul0-1:  "); printBinary(res); printf("\n");
+    // Adding the multiplications to get the middle term
+    add1 = add(mul0, mul1);
+    add2 = add(add1, mul2);
 
-    add1 = add(mul0, mul1); printf("add1:        "); printBinary(add1); printf("\n");
-    add2 = add(add1, mul2); printf("add2:        "); printBinary(add2); printf("\n");
-
-    lrlp(i, 1, a.len)
-        res.digit[i   + a.len/2] += add2.digit[i] + (res.digit[i-1 + a.len/2] >> AC_SHIFT),
+    lrlp(i, 1, a.len+1) {
+        res.digit[i   + a.len/2] += add2.digit[i] + (res.digit[i-1 + a.len/2] >> AC_SHIFT);
         res.digit[i-1 + a.len/2] &= LOMSK;
-    lrlp(i, 3*a.len/2, a.len*2+1) {
+    }
+    lrlp(i, 3*a.len/2+1, a.len*2+1) {
         res.digit[i]   += res.digit[i-1] >> AC_SHIFT;
         res.digit[i-1] &= LOMSK;
     }
 
-    printf("res:         "); printBinary(res); printf("\n");
     return res;
 }
 
@@ -206,9 +240,8 @@ int main() {
     printf("b is "); fflush(stdout); print(b); printf("\n");
 
     big c;
-    big d;
     measureTime(
-        c = _karatsuba_mul_(a, b);
+        c = karatsuba_mul(a, b);
     );
 
     printf("c is "); fflush(stdout); print(c); printf("\n");
