@@ -1,4 +1,4 @@
-# Cryptography
+# Cryptsu
 
 ### Introduction
 A personal project involving the curiosity of understanding Cryptography.
