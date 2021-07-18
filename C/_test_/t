@@ -1,0 +1,4 @@
+while :
+do
+    ./g ./operator-nonop.cpp
+done
