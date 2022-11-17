@@ -22,8 +22,6 @@ body.typora-export { padding-left: 30px; padding-right: 30px; }
 @media screen and (max-width: 500px) {
   body.typora-export { padding-left: 0px; padding-right: 0px; }
   #write { padding-left: 20px; padding-right: 20px; }
-  .CodeMirror-sizer { margin-left: 0px !important; }
-  .CodeMirror-gutters { display: none !important; }
 }
 #write li > figure:last-child { margin-bottom: 0.5rem; }
 #write ol, #write ul { position: relative; }
@@ -51,7 +49,7 @@ sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inh
 #write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
 figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
 figure > table { margin: 0px; }
-tr { break-inside: avoid; break-after: auto; }
+thead, tr { break-inside: avoid; break-after: auto; }
 thead { display: table-header-group; }
 table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
 table.md-table td { min-width: 32px; }
@@ -73,6 +71,7 @@ div.hr:focus { cursor: none; }
 #write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
 .md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
 .CodeMirror-line, twitterwidget { break-inside: avoid; }
+svg { break-inside: avoid; }
 .footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
 .footnotes + .footnotes { margin-top: 0px; }
 .md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
@@ -87,7 +86,7 @@ blockquote > :first-child, li > :first-child { margin-top: 0px; }
 #write .footnote-line { white-space: pre-wrap; }
 @media print {
   body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
-  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; padding-bottom: 0px !important; }
   .typora-export * { -webkit-print-color-adjust: exact; }
   .typora-export #write { break-after: avoid; }
   .typora-export #write::after { height: 0px; }
@@ -130,6 +129,7 @@ p > .md-image:only-child { display: inline-block; width: 100%; }
 }
 a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
 .footnote-line a:not(.reversefootnote) { color: inherit; }
+.reversefootnote { font-family: ui-monospace, sans-serif; }
 .md-attr { display: none; }
 .md-fn-count::after { content: "."; }
 code, pre, samp, tt { font-family: var(--monospace); }
@@ -199,6 +199,7 @@ mark .md-meta { color: rgb(0, 0, 0); }
 .typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
 .typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
 .md-inline-math-container mjx-container { zoom: 0.95; }
+mjx-container { break-inside: avoid; }
 
 
 
@@ -1883,6 +1884,6 @@ file-node-title-name-part {
 </style><title>index</title>
 </head>
 <body class='typora-export'><div class='typora-export-content'>
-<div id='write'  class=''><h1 id='cryptsu'><span>CRYPTSU</span></h1><p><span>Here stores my writeups of crypto challenges (though I am quite lazy about it) and sometimes, probably explanations about Crypto concepts that I find interesting ^.^</span></p><p><span>But anyways, hope you enjoy it </span>🙂</p><p><span>All of the pages </span><em><span>(including this one)</span></em><span> are generated from </span><strong><span>Typora</span></strong><span> markdown files with </span><strong><span>Cryptohack</span></strong><span> theme.</span></p><p>&nbsp;</p><h1 id='writeups'><span>Writeups</span></h1><h2 id='isitdtu-finals-2021'><span>ISITDTU Finals 2021</span></h2><ul><li><strong><span>Dat is sad</span></strong><span>: </span><a href='writeups/isitdtu-final/Dat is sad/'><span>Writeup</span></a></li></ul><h2 id='bksec'><span>BKSEC</span></h2><ul><li><strong><span>Irreversible</span></strong><span>: </span><a href='writeups/bksec/irreversible/'><span>Writeup</span></a></li><li><strong><span>RSA Easy:</span></strong><span> </span><a href='writeups/bksec/rsa-easy/'><span>Writeup</span></a></li><li><strong><span>RSA Hard:</span></strong><span> </span><a href='writeups/bksec/rsa-hard/'><span>Writeup</span></a></li><li><strong><span>Mixed Signal:</span></strong><span> </span><a href='writeups/bksec/mixed-signal/'><span>Writeup</span></a></li><li><strong><span>FNV Encryption:</span></strong><span> </span><a href='writeups/bksec/fnv-encryption/'><span>Writeup</span></a></li></ul><h1 id='animations'><span>Animations</span></h1><ul><li><span>Lattice reduction in 2D: </span><a href='animations/lattice_reduction_in_2d'><span>Link</span></a></li></ul><p>&nbsp;</p></div></div>
+<div id='write'  class=''><h1 id='cryptsu'><span>CRYPTSU</span></h1><p><span>Here stores my writeups of crypto challenges (though I am quite lazy about it) and sometimes, probably explanations about Crypto concepts that I find interesting </span><sup><span>.</span></sup></p><p><span>But anyways, hope you enjoy it </span>🙂</p><p><span>All of the pages </span><em><span>(including this one)</span></em><span> are generated from </span><strong><span>Typora</span></strong><span> markdown files with </span><strong><span>Cryptohack</span></strong><span> theme.</span></p><p>&nbsp;</p><h1 id='writeups'><span>Writeups</span></h1><h2 id='isitdtu-finals-2021'><span>ISITDTU Finals 2021</span></h2><ul><li><strong><span>Dat is sad</span></strong><span>: </span><a href='writeups/isitdtu-final/Dat is sad/'><span>Writeup</span></a></li></ul><h2 id='isitdtu-quals-2022'><span>ISITDTU Quals 2022</span></h2><ul><li><strong><span>Glitch In The Matrix 2.0:</span></strong><span> </span><a href='writeups/isitdtu-2022-quals/Glitch In The Matrix 2.0/'><span>Writeup</span></a></li></ul><h2 id='bksec'><span>BKSEC</span></h2><ul><li><strong><span>Irreversible</span></strong><span>: </span><a href='writeups/bksec/irreversible/'><span>Writeup</span></a></li><li><strong><span>RSA Easy:</span></strong><span> </span><a href='writeups/bksec/rsa-easy/'><span>Writeup</span></a></li><li><strong><span>RSA Hard:</span></strong><span> </span><a href='writeups/bksec/rsa-hard/'><span>Writeup</span></a></li><li><strong><span>Mixed Signal:</span></strong><span> </span><a href='writeups/bksec/mixed-signal/'><span>Writeup</span></a></li><li><strong><span>FNV Encryption:</span></strong><span> </span><a href='writeups/bksec/fnv-encryption/'><span>Writeup</span></a></li></ul><h1 id='animations'><span>Animations</span></h1><ul><li><span>Lattice reduction in 2D: </span><a href='animations/lattice_reduction_in_2d'><span>Link</span></a></li></ul><p>&nbsp;</p></div></div>
 </body>
 </html>
