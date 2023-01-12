@@ -1881,9 +1881,157 @@ file-node-title-name-part {
 
 
 
+mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+  min-height: 1px;
+  min-width: 1px;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line], svg[data-table] > g > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame], svg[data-table] > g > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed, svg[data-table] > g > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted, svg[data-table] > g > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > g > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
+  stroke-width: 3;
+}
+
+g[data-mml-node="xypic"] path {
+  stroke-width: inherit;
+}
+
+.MathJax g[data-mml-node="xypic"] path {
+  stroke-width: inherit;
+}
+mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
+							stroke-width: 0;
+						}
 </style><title>index</title>
 </head>
 <body class='typora-export'><div class='typora-export-content'>
-<div id='write'  class=''><h1 id='cryptsu'><span>CRYPTSU</span></h1><p><span>Here stores my writeups of crypto challenges (though I am quite lazy about it) and sometimes, probably explanations about Crypto concepts that I find interesting </span><sup><span>.</span></sup></p><p><span>But anyways, hope you enjoy it </span>🙂</p><p><span>All of the pages </span><em><span>(including this one)</span></em><span> are generated from </span><strong><span>Typora</span></strong><span> markdown files with </span><strong><span>Cryptohack</span></strong><span> theme.</span></p><p>&nbsp;</p><h1 id='writeups'><span>Writeups</span></h1><h2 id='isitdtu-finals-2021'><span>ISITDTU Finals 2021</span></h2><ul><li><strong><span>Dat is sad</span></strong><span>: </span><a href='writeups/isitdtu-final/Dat is sad/'><span>Writeup</span></a></li></ul><h2 id='isitdtu-quals-2022'><span>ISITDTU Quals 2022</span></h2><ul><li><strong><span>Glitch In The Matrix 2.0:</span></strong><span> </span><a href='writeups/isitdtu-2022-quals/Glitch In The Matrix 2.0/'><span>Writeup</span></a></li></ul><h2 id='bksec'><span>BKSEC</span></h2><ul><li><strong><span>Irreversible</span></strong><span>: </span><a href='writeups/bksec/irreversible/'><span>Writeup</span></a></li><li><strong><span>RSA Easy:</span></strong><span> </span><a href='writeups/bksec/rsa-easy/'><span>Writeup</span></a></li><li><strong><span>RSA Hard:</span></strong><span> </span><a href='writeups/bksec/rsa-hard/'><span>Writeup</span></a></li><li><strong><span>Mixed Signal:</span></strong><span> </span><a href='writeups/bksec/mixed-signal/'><span>Writeup</span></a></li><li><strong><span>FNV Encryption:</span></strong><span> </span><a href='writeups/bksec/fnv-encryption/'><span>Writeup</span></a></li></ul><h1 id='animations'><span>Animations</span></h1><ul><li><span>Lattice reduction in 2D: </span><a href='animations/lattice_reduction_in_2d'><span>Link</span></a></li></ul><p>&nbsp;</p></div></div>
+<div id='write'  class=''><h1 id='cryptsu'><span>CRYPTSU</span></h1><p><span>Here stores my writeups of crypto challenges (though I am quite lazy about it) and sometimes, probably explanations about Crypto concepts that I find interesting </span><sup><span>.</span></sup></p><p><span>But anyways, hope you enjoy it </span>🙂</p><p><span>All of the pages </span><em><span>(including this one)</span></em><span> are generated from </span><strong><span>Typora</span></strong><span> markdown files with </span><strong><span>Cryptohack</span></strong><span> theme.</span></p><p>&nbsp;</p><h1 id='writeups'><span>Writeups</span></h1><h2 id='isitdtu-finals-2021'><span>ISITDTU Finals 2021</span></h2><ul><li><strong><span>Dat is sad</span></strong><span>: </span><a href='writeups/isitdtu-final/Dat is sad/'><span>Writeup</span></a></li></ul><h2 id='isitdtu-quals-2022'><span>ISITDTU Quals 2022</span></h2><ul><li><strong><span>Glitch In The Matrix 2.0:</span></strong><span> </span><a href='writeups/isitdtu-2022-quals/Glitch In The Matrix 2.0/'><span>Writeup</span></a></li></ul><h2 id='tetctf-2023'><span>TetCTF 2023</span></h2><ul><li><strong><span>Casino 2:</span></strong><span> </span><a href='writeups/tetctf-2023/Casino 2/'><span>Writeup</span></a></li></ul><h2 id='bksec'><span>BKSEC</span></h2><ul><li><strong><span>Irreversible</span></strong><span>: </span><a href='writeups/bksec/irreversible/'><span>Writeup</span></a></li><li><strong><span>RSA Easy:</span></strong><span> </span><a href='writeups/bksec/rsa-easy/'><span>Writeup</span></a></li><li><strong><span>RSA Hard:</span></strong><span> </span><a href='writeups/bksec/rsa-hard/'><span>Writeup</span></a></li><li><strong><span>Mixed Signal:</span></strong><span> </span><a href='writeups/bksec/mixed-signal/'><span>Writeup</span></a></li><li><strong><span>FNV Encryption:</span></strong><span> </span><a href='writeups/bksec/fnv-encryption/'><span>Writeup</span></a></li></ul><h1 id='animations'><span>Animations</span></h1><ul><li><span>Lattice reduction in 2D: </span><a href='animations/lattice_reduction_in_2d'><span>Link</span></a></li></ul><p>&nbsp;</p></div></div>
 </body>
 </html>
